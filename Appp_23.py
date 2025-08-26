@@ -196,6 +196,15 @@ ENRICHED_DB = {
         "current_rating_max_ma": 100, "dcr_max_ohm": 5, "operating_temp_min_c": -40, "operating_temp_max_c": 85,
         "features": "TVS Diode ESD Protection", "mounting_type": "Surface Mount", "size_dimension_mm": "2.60mm x 1.35mm",
         "height_max_mm": 0.55, "package_case": "10-UFDFN", "base_product_number": "ECMF04"
+    },
+    "zldo1117qg33ta": {
+        "part_name": "LDO Voltage Regulator, Fixed 3.3V 1A", "use": "Low-dropout positive fixed-mode regulator for low-voltage IC applications.",
+        "manufacturer": "Diodes Incorporated", "category": "Integrated Circuits (ICs)", "sub_category": "PMIC - Voltage Regulators - Linear",
+        "series": "ZLDO1117", "packaging": "SOT-223", "part_status": "Active", "output_type": "Fixed",
+        "voltage_output_v": 3.3, "voltage_input_max_v": 18, "voltage_dropout_max_v": 1.2, "current_output_a": 1,
+        "psrr": "80dB (120Hz)", "operating_temp_min_c": -40, "operating_temp_max_c": 125,
+        "features": "Output Current Limiting, Thermal Shutdown", "mounting_type": "Surface Mount", "package_case": "SOT-223-3",
+        "qualification": "AEC-Q100"
     }
 }
 
@@ -269,9 +278,10 @@ def display_datasheet_details(part_number, data):
     spec_order = [
         ("Category", "category"), ("Series", "series"), ("Packaging", "packaging"), ("Part Status", "part_status"),
         ("Filter Type", "filter_type"), ("Number of Lines", "number_of_lines"),
-        ("Current Rating (Max)", "current_rating_max_ma", "mA"), ("DC Resistance (Max)", "dcr_max_ohm", "Ohm"),
+        ("Output Voltage", "voltage_output_v", "V"), ("Input Voltage (Max)", "voltage_input_max_v", "V"),
+        ("Dropout Voltage (Max)", "voltage_dropout_max_v", "V @ 1A"), ("Current - Output", "current_output_a", "A"),
+        ("PSRR", "psrr"), ("Qualification", "qualification"),
         ("Operating Temperature", "operating_temp_range"), ("Features", "features"), ("Mounting Type", "mounting_type"),
-        ("Size / Dimension", "size_dimension_mm"), ("Height (Max)", "height_max_mm", "mm"),
         ("Package / Case", "package_case"), ("Base Product Number", "base_product_number")
     ]
     if "operating_temp_min_c" in data and "operating_temp_max_c" in data:
@@ -330,7 +340,7 @@ elif option == "Component Information":
     st.header("Component Key Information")
     st.caption("Search the complete BOM for detailed component specifications.")
     
-    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., ecmf04-4hswm10y").lower().strip()
+    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., ZLDO1117QG33TA").lower().strip()
     
     if st.button("Search Component"):
         if part_q:
