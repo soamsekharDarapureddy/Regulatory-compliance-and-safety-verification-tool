@@ -352,7 +352,7 @@ elif option == "Component Information":
     st.header("Component Key Information")
     st.caption("Search the complete BOM for detailed component specifications.")
     
-    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., ISO1042BQDWVQ1").lower().strip()
+    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., iso1042bqdwvq1").lower().strip()
     
     if st.button("Search Component"):
         if part_q:
