@@ -159,12 +159,9 @@ def load_bom_data():
         'rmcf0402ft402k': {'part_name': '402K Resistor (RMCF0402FT402K)', 'manufacturer': 'Stackpole Electronics Inc', 'use': 'Biasing'},
         'ac0603fr-7w20kl': {'part_name': '20K Resistor (AC0603FR-7W20KL)', 'manufacturer': 'YAGEO', 'use': 'Biasing'},
         'h164yp': {'part_name': 'Ethernet PHY (H164YP)', 'manufacturer': 'AGENEW', 'use': 'Ethernet Interface'},
-        'zldo1117qg33ta': {'part_name': 'LDO Voltage Regulator (ZLDO1117QG33TA)', 'manufacturer': 'Diodes Incorporated', 'use': 'Power Supply Regulation'},
         'ap63357qzv-7': {'part_name': 'Buck Converter (AP63357QZV-7)', 'manufacturer': 'Diodes Incorporated', 'use': 'Power Supply Conversion'},
         'pca9306idcurq1': {'part_name': 'Voltage-Level Translator (PCA9306IDCURQ1)', 'manufacturer': 'Texas Instruments', 'use': 'I2C Level Shifting'},
         'mcp2518fdt-e/sl': {'part_name': 'CAN FD Controller (MCP2518FDT-E/SL)', 'manufacturer': 'Microchip Technology', 'use': 'CAN Bus Interface'},
-        'iso1042bqdwvq1': {'part_name': 'Isolated CAN Transceiver (ISO1042BQDWVQ1)', 'manufacturer': 'Texas Instruments', 'use': 'CAN Bus Communication'},
-        'pesd2canfd27v-tr': {'part_name': 'ESD Protection Diode (PESD2CANFD27V-TR)', 'manufacturer': 'Nexperia', 'use': 'ESD Protection for CAN Bus'},
         'lt8912b': {'part_name': 'MIPI Bridge (LT8912B)', 'manufacturer': 'Lontium', 'use': 'Display/Camera Interface'},
         'sn74lv1t34qdckrq1': {'part_name': 'Voltage Level Translator (SN74LV1T34QDCKRQ1)', 'manufacturer': 'Texas Instruments', 'use': 'Logic Level Shifting'},
         'ncp164csnadjt1g': {'part_name': 'LDO Regulator (NCP164CSNADJT1G)', 'manufacturer': 'onsemi', 'use': 'Power Supply Regulation'},
@@ -176,7 +173,6 @@ def load_bom_data():
         'cf0505xt-1wr3': {'part_name': 'DC/DC Converter (CF0505XT-1WR3)', 'manufacturer': 'MORNSUN', 'use': 'Isolated Power Supply'},
         'iam-20680ht': {'part_name': 'IMU Sensor (IAM-20680HT)', 'manufacturer': 'TDK InvenSense', 'use': 'Motion Sensing'},
         'attiny1616-szt-vao': {'part_name': 'MCU (ATTINY1616-SZT-VAO)', 'manufacturer': 'Microchip', 'use': 'Microcontroller'},
-        'tlv9001qdckrq1': {'part_name': 'Op-Amp (TLV9001QDCKRQ1)', 'manufacturer': 'Texas Instruments', 'use': 'Signal Amplification'},
         'qmc5883l': {'part_name': 'Magnetometer (QMC5883L)', 'manufacturer': 'QST', 'use': 'Magnetic Field Sensing'},
         'lm76202qpwprq1': {'part_name': 'Ideal Diode Controller (LM76202QPWPRQ1)', 'manufacturer': 'Texas Instruments', 'use': 'Reverse Polarity Protection'},
         'bd83a04efv-me2': {'part_name': 'LED Driver (BD83A04EFV-ME2)', 'manufacturer': 'Rohm Semiconductor', 'use': 'LED Driving'},
@@ -205,6 +201,16 @@ ENRICHED_DB = {
         "psrr": "80dB (120Hz)", "operating_temp_min_c": -40, "operating_temp_max_c": 125,
         "features": "Output Current Limiting, Thermal Shutdown", "mounting_type": "Surface Mount", "package_case": "SOT-223-3",
         "qualification": "AEC-Q100"
+    },
+    "iso1042bqdwvq1": {
+        "part_name": "Isolated CAN Transceiver with 70-V Bus Fault Protection", "use": "Galvanically-isolated CAN transceiver for automotive and industrial applications.",
+        "manufacturer": "Texas Instruments", "category": "Interface ICs", "sub_category": "CAN Interface IC",
+        "series": "ISO1042", "type": "High Speed CAN Transceiver", "mounting_style": "SMD/SMT", "package_case": "SOIC-8",
+        "data_rate": "5 Mb/s", "num_drivers": 1, "num_receivers": 1, "supply_voltage_min_v": 1.71,
+        "supply_voltage_max_v": 5.5, "operating_temp_min_c": -40, "operating_temp_max_c": 125,
+        "operating_supply_current_ma": 43, "esd_protection_kv": 16, "qualification": "AEC-Q100",
+        "packaging": "Reel, Cut Tape, MouseReel", "power_dissipation_mw": 385, "propagation_delay_ns": 76,
+        "unit_weight_mg": 392
     }
 }
 
@@ -276,22 +282,28 @@ def display_datasheet_details(part_number, data):
     
     st.markdown("<div class='spec-grid'>", unsafe_allow_html=True)
     spec_order = [
-        ("Category", "category"), ("Series", "series"), ("Packaging", "packaging"), ("Part Status", "part_status"),
-        ("Filter Type", "filter_type"), ("Number of Lines", "number_of_lines"),
-        ("Output Voltage", "voltage_output_v", "V"), ("Input Voltage (Max)", "voltage_input_max_v", "V"),
-        ("Dropout Voltage (Max)", "voltage_dropout_max_v", "V @ 1A"), ("Current - Output", "current_output_a", "A"),
-        ("PSRR", "psrr"), ("Qualification", "qualification"),
-        ("Operating Temperature", "operating_temp_range"), ("Features", "features"), ("Mounting Type", "mounting_type"),
-        ("Package / Case", "package_case"), ("Base Product Number", "base_product_number")
+        ("Category", "category"), ("Series", "series"), ("Type", "type"), ("Mounting Style", "mounting_style"),
+        ("Package / Case", "package_case"), ("Data Rate", "data_rate"),
+        ("Number of Drivers/Receivers", "drivers_receivers"), ("Supply Voltage", "supply_voltage"),
+        ("Operating Temperature", "operating_temp_range"), ("Operating Supply Current", "operating_supply_current_ma", "mA"),
+        ("ESD Protection", "esd_protection_kv", "kV"), ("Qualification", "qualification"),
+        ("Packaging", "packaging"), ("Power Dissipation", "power_dissipation_mw", "mW"),
+        ("Propagation Delay", "propagation_delay_ns", "ns"), ("Unit Weight", "unit_weight_mg", "mg"),
     ]
+
+    # Pre-format combined fields
+    if "num_drivers" in data and "num_receivers" in data:
+        data["drivers_receivers"] = f"{data['num_drivers']} Driver / {data['num_receivers']} Receiver"
+    if "supply_voltage_min_v" in data and "supply_voltage_max_v" in data:
+        data["supply_voltage"] = f"{data['supply_voltage_min_v']}V to {data['supply_voltage_max_v']}V"
     if "operating_temp_min_c" in data and "operating_temp_max_c" in data:
-        data["operating_temp_range"] = f"{data['operating_temp_min_c']}°C ~ {data['operating_temp_max_c']}°C"
+        data["operating_temp_range"] = f"{data['operating_temp_min_c']}°C to {data['operating_temp_max_c']}°C"
     
     has_specs = False
     for label, key, *unit in spec_order:
-        if key in data and data.get(key):
+        if key in data and data.get(key) is not None:
             has_specs = True
-            value = f"{data[key]}{unit[0]}" if unit and data[key] else data[key]
+            value = f"{data[key]} {unit[0]}" if unit and data[key] else data[key]
             st.markdown(f"<div class='spec-label'>{label}</div><div class='spec-value'>{value}</div>", unsafe_allow_html=True)
             
     if not has_specs:
@@ -340,7 +352,7 @@ elif option == "Component Information":
     st.header("Component Key Information")
     st.caption("Search the complete BOM for detailed component specifications.")
     
-    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., ZLDO1117QG33TA").lower().strip()
+    part_q = st.text_input("Enter Manufacturer Part Number for Detailed Lookup", placeholder="e.g., ISO1042BQDWVQ1").lower().strip()
     
     if st.button("Search Component"):
         if part_q:
