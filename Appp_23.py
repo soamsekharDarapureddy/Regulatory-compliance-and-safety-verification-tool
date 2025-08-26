@@ -45,19 +45,17 @@ def get_image_as_base64(path):
     return ""
 
 logo_base64 = get_image_as_base64("people_tech_logo.png")
-if logo_base64:
-    st.markdown(f"""
-        <div style="display: flex; align-items: center; margin-bottom: 25px;">
+st.markdown(f"""
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+        <div style="display: flex; align-items: center;">
             <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height: 120px; margin-right: 25px;"/>
             <div>
                 <h1 style="color:#0056b3; margin: 0; font-size: 2.2em; line-height: 1.0;">Regulatory Compliance</h1>
                 <h2 style="color:#0056b3; margin: 0; font-size: 1.4em; line-height: 1.0;">& Safety Verification Tool</h2>
             </div>
         </div>
-    """, unsafe_allow_html=True)
-else:
-    st.error("Logo file 'people_tech_logo.png' not found.")
-    st.title("Regulatory Compliance & Safety Verification Tool")
+    </div>
+""", unsafe_allow_html=True)
 
 # ===============================================
 # === KNOWLEDGE BASES & DATABASE LOADING ===
@@ -122,7 +120,7 @@ def load_bom_data():
         '74404084068': {'part_name': '6.8uH Inductor (74404084068)', 'manufacturer': 'Würth Elektronik', 'use': 'Power Inductor'},
         '744231091': {'part_name': 'Common Mode Choke (744231091)', 'manufacturer': 'Würth Elektronik', 'use': 'EMI Filtering'},
         'mlz2012m6r8htd25': {'part_name': '6.8uH Inductor (MLZ2012M6R8HTD25)', 'manufacturer': 'TDK Corporation', 'use': 'Power Inductor'},
-        'rq3g270bjfratcb': {'part_name': 'P-Channel MOSFET (RQ3G270BJFRATCB)', 'manufacturer': 'Rohm Semiconductor', 'use': 'Switching'},
+        'rq3g270bjfratcb': {'part_name': 'P-Channel MOSFET (RQ3g270BJFRATCB)', 'manufacturer': 'Rohm Semiconductor', 'use': 'Switching'},
         'pja138k-au_r1_000a1': {'part_name': 'MOSFET (PJA138K-AU_R1_000A1)', 'manufacturer': 'Panjit International Inc.', 'use': 'Switching'},
         'dmp2070uq-7': {'part_name': 'MOSFET (DMP2070UQ-7)', 'manufacturer': 'Diodes Incorporated', 'use': 'Switching'},
         'ac0402jr-070rl': {'part_name': '0R Resistor (AC0402JR-070RL)', 'manufacturer': 'YAGEO', 'use': 'Jumper'},
@@ -275,8 +273,11 @@ def display_test_card(test_case, color):
 
 def display_datasheet_details(part_number, data):
     st.markdown(f"<div class='datasheet-card'>", unsafe_allow_html=True)
-    st.markdown(f"<div class='datasheet-title'>{data.get('part_name', part_number.upper())}</div>", unsafe_allow_html=True)
+    
+    # Single line title
+    st.markdown(f"<div class='datasheet-title' style='display: block; line-height: 1.2;'>{data.get('part_name', part_number.upper())}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='datasheet-subtitle'><b>Manufacturer:</b> {data.get('manufacturer', 'N/A')}</div>", unsafe_allow_html=True)
+    
     st.markdown(f"<p><b>Primary Use / Application:</b> {data.get('use', 'General Purpose')}</p>", unsafe_allow_html=True)
     st.markdown("<hr style='border-top: 1px solid #e9ecef; margin: 15px 0;'>", unsafe_allow_html=True)
     
